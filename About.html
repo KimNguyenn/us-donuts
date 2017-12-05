@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Everything about US Donuts and reviews from customers.">
+    <meta name="author" content="Julian-and-Kim">
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <title>US Donuts | About</title>
+    <link rel="shortcut icon" href="img/usdonut.ico" />
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet >
+
+    <!-- Custom Fonts -->
+    <link href=" http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic " rel="stylesheet " type="text/css ">
+    
+  </head>
+
+  <body>
+  
+    <!-- Navagation bar -->
+    <div class="topnav" id="myTopnav">
+    <a href="index.html" class="active">Us Donuts</a>
+    <a href="Menu.html">Menu</a>
+    <a href="About.html">About</a>
+    <a href="Contact.html">Contact</a>
+    <a href="Order.html">Order</a>
+    <a href="Location.html">Location</a>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+  </div>
+    <!-- End of Navagation Bar -->
+
+    <!--descrption&picture-->
+    <div id="aboutus">
+      <img id="aboutpicture" src="img/fallfavorites3.jpeg" align="right" />
+    <div id="about-header">  
+      <h3>About US Donuts:</h3><br>
+    </div>
+    <div id="about-text">
+      <p2>US Donuts opened its doors in the winter of 2013. Ever since day one, we have been making fresh donuts daily and we still make them by hand every early morning. The donuts' recipe has changed slightly over the years to have the perfect balance of
+      sweetness and an airy dough. We have been told the donuts' comforting taste reminds them of home, which is perfect for someone who has to have their early morning breakfast away from home. The early mornings at the shop are great before work or
+      school because we believe everyone should start off their day with a delicious breakfast. We do offer other foods other than donuts, like croissants, kolaches, and biscuits. The beverages ranges from dairy to juices and to coffee. US Donuts are
+      looking forward to satisfy all your cravings.</p2>
+    </div>  
+    </div>
+    <!--end of descrption&picture-->
+
+    <!-- Reviews -->
+    <div class="containerreviews">
+      <form id="review-form" action="index.html" method="post">
+        <h2>Write Your Review</h2>
+        <div id="rating">
+          <svg class="star" id="1" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" style="fill: #f39c12;">
+            <polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566"></polygon>
+          </svg>
+          <svg class="star" id="2" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" style="fill: #f39c12;">
+            <polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566"></polygon>
+          </svg>
+          <svg class="star" id="3" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" style="fill: #f39c12;">
+            <polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566"></polygon>
+          </svg>
+          <svg class="star" id="4" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" style="fill: #f39c12;">
+            <polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566"></polygon>
+          </svg>
+          <svg class="star" id="5" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" style="fill: #808080;">
+            <polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566"></polygon>
+          </svg>
+        </div>
+        <span id="starsInfo" class="help-block"></span>
+        <div class="form-group">
+          <label class="control-label" for="review">Your Review:</label>
+          <textarea class="form-control" rows="10" placeholder="Your Reivew" name="review" id="review"></textarea>
+          <span id="reviewInfo" class="help-block pull-right"></span>
+          <span id="remaining">500</span> Characters remaining</span>
+        </div>
+        <a href="#" id="submit" class="btn btnprimary">Submit</a>
+        <input id="submitForm" type="submit">
+        <span id="submitInfo" class="help-block"></span>
+      </form>
+      <h2>Reviews:</h2>
+      <div id="review-container">
+      </div>
+    </div>
+    <script>
+      function starsReducer(state, action) {
+        switch (action.type) {
+          case "HOVER_STAR": {
+            return {
+              starsHover: action.value,
+              starsSet: state.starsSet
+            };
+          }
+          case "CLICK_STAR":
+            {
+              return {
+                starsHover: state.starsHover,
+                starsSet: action.value
+              };
+            }
+            break;
+          default:
+            return state;
+        }
+      }
+    
+      var StarContainer = document.getElementById("rating");
+     var StarComponents = StarContainer.children;
+    
+      var state = {
+        starsHover: 0,
+        starsSet: 4
+      };
+    
+      function render(value) {
+        for (var i = 0; i < StarComponents.length; i++) {
+          StarComponents[i].style.fill = i < value ? "#f39c12" : "#808080";
+        }
+      }
+      
+      for (var i = 0; i < StarComponents.length; i++) {
+        StarComponents[i].addEventListener("mouseenter", function() {
+          state = starsReducer(state, {
+            type: "HOVER_STAR",
+            value: this.id
+          });
+          render(state.starsHover);
+        });
+    
+        StarComponents[i].addEventListener("click", function() {
+          state = starsReducer(state, {
+            type: "CLICK_STAR",
+            value: this.id
+          });
+          render(state.starsHover);
+        });
+      }
+    
+      StarContainer.addEventListener("mouseleave", function() {
+        render(state.starsSet);
+      });
+    
+      var review = document.getElementById("review");
+      var remaining = document.getElementById("remaining");
+      review.addEventListener("input", function(e) {
+        review.value = e.target.value.slice(0, 500);
+        remaining.innerHTML = 500 - e.target.value.length;
+      });
+    
+      var form = document.getElementById("review-form");
+    
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        let post = {
+          stars: state.starsSet,
+          review: form["review"].value,
+          name: form["name"].value,
+          city: form["city"].value,
+          email: form["email"].value
+        };
+    
+        console.log(post);
+      });
+    
+      document.getElementById("submit").addEventListener("click", function(e) {
+        e.preventDefault();
+        document.getElementById("submitForm").click();
+      });
+    
+      var reviews = {
+        reviews: [
+          {
+            stars: 5,
+            name: "Chris Bowman Rowland",
+            city: "",
+            review:
+              "Best donuts in town-hands down! We have beed going there weekly for years and will continue!"
+          },
+          {
+            stars: 5,
+            name: "Brianna Brown",
+            city: "",
+            review: " Best donuts around. Try their frozen coffee drinks!!"
+          },
+          {
+            stars: 5,
+            name: "Joseph M Rosenwald",
+            city: "",
+            review:
+              "Best selection of donuts and treats! The kolaches are great and the service is excellent!"
+          }
+        ]
+      };
+    
+      function ReviewStarContainer(stars) {
+        var div = document.createElement("div");
+        div.className = "stars-container";
+        for (var i = 0; i < 5; i++) {
+          var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          svg.setAttribute("viewBox", "0 12.705 512 486.59");
+          svg.setAttribute("x", "0px");
+          svg.setAttribute("y", "0px");
+          svg.setAttribute("xml:space", "preserve");
+          svg.setAttribute("class", "star");
+          var svgNS = svg.namespaceURI;
+          var star = document.createElementNS(svgNS, "polygon");
+          star.setAttribute(
+            "points",
+            "256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566"
+          );
+          star.setAttribute("fill", i < stars ? "#f39c12" : "#808080");
+          svg.appendChild(star);
+          div.appendChild(svg);
+        }
+        return div;
+      }
+    
+      function ReviewContentContainer(name, city, review) {
+        var reviewee = document.createElement("div");
+        reviewee.className = "reviewee footer";
+        reviewee.innerHTML = "- " + name + ", " + city;
+      
+        var comment = document.createElement("p");
+        comment.innerHTML = review;
+    
+        var div = document.createElement("div");
+        div.className = "review-content";
+        div.appendChild(comment);
+        div.appendChild(reviewee);
+    
+        return div;
+      }
+    
+      function ReviewsContainer(review) {
+        var div = document.createElement("blockquote");
+        div.className = "review";
+        div.appendChild(ReviewStarContainer(review.stars));
+        div.appendChild(
+          ReviewContentContainer(review.name, review.city, review.review)
+        );
+        return div;
+      }
+    
+      for (var i = 0; i < reviews.reviews.length; i++) {
+        document
+          .getElementById("review-container")
+          .appendChild(ReviewsContainer(reviews.reviews[i]));
+      }
+    </script>
+    <!-- End of reviews-->
+    
+     <!--  Footer  -->
+    <footer class="flex-rw">
+      <ul class="footer-list-top">
+        <li>
+          <h4 class="footer-list-header">.</h4></li>
+        <li><a href='Contact.html' class="generic-anchor footer-list-anchor" itemprop="significantLink">(731)506-3808</a></li>
+        <li><a href='Contact.html' class="generic-anchor footer-list-anchor" itemprop="significantLink">usdonuts<br>@gmail.com</a></li>
+      </ul>
+      <ul class="footer-list-top">
+        <li>
+          <h4 class="footer-list-header">Contact</h4></li>
+        <li class="hours">Mon-Sat: 5am-1pm</li>
+        <li class="hours">Sun: 6am-1pm</li>
+      </ul>
+      <ul class="footer-list-top">
+        <li id='help'>
+          <h4 class="footer-list-header">.</h4></li>
+        <li id='user-registration'><a href="Location.html" class="generic-anchor footer-list-anchor" itemprop="significantLink">3189 N Highland Ave Suite C</a></li>
+        <li id='order-tracking'><a href="Location.html" itemprop="significantLink" class="generic-anchor footer-list-anchor">Jackson,TN 38305</a></li>
+      </ul>
+      <section class="footer-social-section flex-rw">
+        <span class="footer-social-overlap footer-social-connect">Follow Us On</span>
+        <span class="footer-social-overlap footer-social-icons-wrapper">
+          <a href="https://www.facebook.com/usdonutsnorthside/" class="facebook"><img src="https://lh3.googleusercontent.com/ZZPdzvlpK9r_Df9C3M7j1rNRi7hhHRvPhlklJ3lfi5jk86Jd1s0Y5wcQ1QgbVaAP5Q=w170" class="facebook"><img class="gmaillogo" src="https://image.flaticon.com/icons/svg/281/281769.svg"></a>
+        </span>
+      </section>
+    </footer>
+    <!-- End of Footer -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+  </body>
+
+</html>

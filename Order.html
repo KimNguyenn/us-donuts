@@ -1,0 +1,358 @@
+<html lang="en" ng-app="orderForm">
+  <head>
+    <title>US Donuts | Order</title>
+    <link rel="shortcut icon" href="img/usdonut.ico" />
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Order Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+
+  <body ng-controller="OrderFormController">
+  
+    <!-- Navagation Bar -->
+    <div class="topnav" id="myTopnav">
+      <a href="index.html" class="active">Us Donuts</a>
+      <a href="Menu.html">Menu</a>
+      <a href="About.html">About</a>
+      <a href="Contact.html">Contact</a>
+      <a href="Order.html">Order</a>
+      <a href="Location.html">Location</a>
+      <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+    </div>
+    <script>
+       function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+         x.className += " responsive";
+       } else {
+         x.className = "topnav";
+       }
+      }
+    </script>
+    <!-- End of Navagation Bar -->
+
+    <!-- order boxes -->
+    <form action="#">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            <p>Fields marked with * are mandatory</p>
+            <div class="form-group">
+              <label for="your-name">Name *</label>
+              <input type="text" required class="form-control" id="your-name" placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label for="your-email">Email *</label>
+              <input type="email" required class="form-control" id="your-email" placeholder="Your email">
+            </div>
+            <div class="form-group">
+              <label for="your-number">Contact number *</label>
+              <input type="text" required class="form-control" id="your-number" placeholder="Your number">
+            </div>
+            <div class="form-group">
+              <label for="contact-person">Contact person *</label>
+              <input type="text" class="form-control" id="contact-person" placeholder="Contact person">
+            </div>
+          </div>
+          <div class="col-md-6">
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-8">
+                <h2>Order products</h2>
+              </div>
+              <div class="col-md-4" style="padding-top: 20px;">
+                <input type="text" ng-model="searchName" class="form-control" placeholder="Search">
+              </div>
+            </div>
+            <table class="table table-striped table-hover table-condensed table-responsive table-extra-condensed">
+              <thead>
+                <th width="15%">Product</th>
+                <th width="75%">Qty</th>
+                <th width="10%" class="text-right">Sub total</th>
+              </thead>
+              <tbody>
+                <tr ng-repeat="product in products | filter:searchName">
+                  <td>{{ product.title }}</td>
+                  <td class="form-inline">
+                    <div class="form-group margin-right20" ng-repeat="options in product.variation">
+                      <label>
+                        <input type="checkbox" ng-model="options.selected"> {{ options.name }} - ${{ options.price }}
+                      </label>
+                        <input type="number" ng-init="options.quantity=1" ng-model="options.quantity" class="form-control input-xs" value="1" min="1" />
+                    </div>
+                  </td>
+                  <td class="text-right">${{ sumRows(product.variation) }}</td>
+                </tr>
+                <tr ng-show="(products | filter:searchName).length === 0">
+                  <td colspan="3">No products for your search "{{ searchName }}"</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-4">
+            <h2>Order Summary</h2>
+            <table class="table table-striped table-hover table-responsive table-condensed">
+              <thead>
+                <th>Product name</th>
+                <th>Qty</th>
+                <th class="text-right">Price</th>
+              </thead>
+              <tbody>
+                <tr ng-repeat="product in selectedProducts">
+                  <td>{{ product.title }}</td>
+                  <td><span ng-repeat="variation in product.variation">{{ variation.name + ' x ' + variation.quantity }}, </span></td>
+                  <td class="text-right">${{ sumRows(product.variation) }}</td>
+                </tr>
+                <tr ng-if="!selectedProducts.length">
+                  <td colspan="3">Please select products on the left</td>
+                </tr>
+              </tbody>
+            </table>
+            <h3 class="text-right">Total: ${{ sumSelectedProducts() }}</h3>
+            <div class="text-right">
+              <button type="submit" class="btn btn-success btn-lg">Submit Order</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <script>
+      (function() {
+
+        var app = angular.module('orderForm', []);
+
+       app.controller('OrderFormController', function($scope, $filter) {
+            $scope.selectedProducts = [];
+           $scope.setSelectedProducts = function() {
+               var selectedProducts = [];
+               angular.forEach($scope.products, function(data) {
+                    var product = {title: data.title, variation: []};
+                   angular.forEach(data.variation, function(variation) {
+                        if (variation.selected) {
+                            product.variation.push(variation);
+                       }
+                   });
+
+                    if (product.variation.length > 0) {
+                       selectedProducts.push(product);
+                   }
+               });
+                $scope.selectedProducts = selectedProducts;
+           };
+
+           $scope.sumRows = function(options) {
+                var total = 0;
+                for (var i = 0; i < options.length; i++) {
+                   if (options[i].selected) {
+                       total +=  parseFloat(options[i].price) * parseInt(options[i].quantity);
+                    }
+                }
+            
+               $scope.setSelectedProducts();
+                $scope.sumSelectedProducts();
+                return total;
+           };
+        
+           $scope.sumSelectedProducts = function() {
+                var grandTotal = 0;
+               for (var i = 0; i < $scope.selectedProducts.length; i++) {
+                   for (var j = 0; j < $scope.selectedProducts[i].variation.length; j++) {
+                       grandTotal += $scope.selectedProducts[i].variation[j].price
+                            * parseInt($scope.selectedProducts[i].variation[j].quantity);
+                    }
+               }
+               return Number(grandTotal).toFixed(2);
+           };
+        
+            $scope.products  = [
+               {
+                 title: "Black Coffee",
+                  variation: [
+                   { name: "Small", price: 1.00 },
+                   { name: "Medium", price: 1.29 },
+                     { name: "Large", price: 1.49 }
+                  ]
+               },
+                {
+                  title: "Blended Coffee",
+                  variation: [
+                    { name: "Small", price: 1.98 },
+                    { name: "Medium", price: 2.69 },
+                    { name: "Large", price: 3.12 }
+                 ]
+                },
+                {
+                  title: "Cappuccino",
+                  variation: [
+                    { name: "Small", price: 1.98 },
+                    { name: "Medium", price: 2.69 },
+                    { name: "Large", price: 3.12 }
+                 ]
+                },
+                {
+                 title: "Espresso",
+                 variation: [
+                   { name: "Small", price: 1.98 },
+                  { name: "Medium", price: 2.69 },
+                  { name: "Large", price: 3.12 }
+                  ]
+                },
+               {
+                 title: "Iced Coffee",
+                 variation: [
+                    { name: "Small", price: 1.24 },
+                    { name: "Medium", price: 1.64 },
+                    { name: "Large", price: 1.98 }
+                 ]
+               },
+               {
+                 title: "Hot Chocolate",
+                 variation: [
+                   { name: "Small", price: 1.48 },
+                    { name: "Medium", price: 2.26 },
+                   { name: "Large", price: 2.50 }
+                  ]
+                },
+               {
+                 title: "Glazed Donut",
+                 variation: [{ price: 0.48 }]
+               },
+                {
+                  title: "Chocolate Donut",
+                  variation: [{ price: 0.54 }]
+               },
+               {
+                 title: "Cake Donut",
+                  variation: [{ price: 0.89 }]
+                },
+                {
+                  title: "Donut Holes (per dozen)",
+                  variation: [{ price: 0.68 }]
+                },
+                {
+                  title: "Powdered Donut",
+                  variation: [{ price: 0.27 }]
+               },
+                {
+                  title: "Red Velvet Cake Donut",
+                  variation: [{ price: 0.52 }]
+                },
+                {
+                  title: "Ham & Cheese Croissant",
+                  variation: [{ price: 2.68 }]
+               },
+               {
+                  title: "Sausage&Egg Buscuit",
+                  variation: [{ price: 2.49 }]
+               },
+               {
+                 title: "Cinnamon Roll",
+                 variation: [{ price: 1.98 }]
+               },
+               {
+                 title: "Strawberry Danish",
+                 variation: [{ price: 1.15 }]
+               },
+                {
+                  title: "Gravy&Buscuit",
+                  variation: [{ price: 1.98 }]
+                },
+               {
+                  title: "Kholache",
+                  variation: [{ price: 1.55 }]
+                },
+               {
+                title: "Apple Juice",
+                variation: [
+                  { name: "Small", price: 1.48 },
+                  { name: "Medium", price: 2.26 },
+                  { name: "Large", price: 2.50 }
+                ]
+              },
+              {
+                title: "Orange Juice",
+               variation: [
+                  { name: "Small", price: 1.48 },
+                  { name: "Medium", price: 2.26 },
+                  { name: "Large", price: 2.50 }
+                ]
+              },
+              {
+                title: "Fruit Punch",
+                variation: [
+                  { name: "Small", price: 1.48 },
+                  { name: "Medium", price: 2.26 },
+                  { name: "Large", price: 2.50 }
+                ]
+              },
+              {
+                title: "Iced Tea",
+                variation: [
+                  { name: "Small", price: 1.48 },
+                  { name: "Medium", price: 2.26 },
+                  { name: "Large", price: 2.50 }
+                ]
+              },
+              {
+                title: "Chocolate Milk",
+                variation: [
+                  { name: "Small", price: 1.48 },
+                  { name: "Medium", price: 2.26 },
+                  { name: "Large", price: 2.50 }
+                ]
+              },
+              {
+                title: "Milk",
+                variation: [
+                  { name: "Small", price: 1.48 },
+                  { name: "Medium", price: 2.26 },
+                  { name: "Large", price: 2.50 }
+                ]
+              }
+            ];
+          });
+      })();
+    </script>
+
+    <!--  Footer  -->
+    <footer class="flex-rw3">
+
+      <ul class="footer-list-top3">
+        <li><h4 class="footer-list-header3">.</h4></li>
+        <li><a href='/shop/about-mission' class="generic-anchor3 footer-list-anchor3" itemprop="significantLink">(731)506-3808</a></li>
+        <li><a href='/promos.html' class="generic-anchor3 footer-list-anchor3" itemprop="significantLink">usdonuts<br>@gmail.com</a></li>
+      </ul>
+      <ul class="footer-list-top3">
+        <li><h4 class="footer-list-header3">Contact</h4></li>
+        <li class="hours3">Mon-Sat: 5am-1pm</li>
+        <li class="hours3">Sun: 6am-1pm</li>
+      </ul>
+      <ul class="footer-list-top3">
+        <li id='help'><h4 class="footer-list-header3">.</h4></li>
+        <li id='user-registration'><a href="Location.html" class="generic-anchor3 footer-list-anchor3" itemprop="significantLink">3189 N Highland Ave Suite C</a></li>
+        <li id='order-tracking'><a href="Location.html" itemprop="significantLink" class="generic-anchor3 footer-list-anchor3">Jackson,TN 38305</a></li>
+      </ul>
+      <section class="footer-social-section3 flex-rw3">
+        <span class="footer-social-overlap3 footer-social-connect3">Follow Us On</span>
+        <span class="footer-social-overlap3 footer-social-icons-wrapper3">
+        <a href="https://www.facebook.com/usdonutsnorthside/" class="facebook3"><img src="https://lh3.googleusercontent.com/ZZPdzvlpK9r_Df9C3M7j1rNRi7hhHRvPhlklJ3lfi5jk86Jd1s0Y5wcQ1QgbVaAP5Q=w170" class="facebook3"><img class="gmaillogo3" src="https://image.flaticon.com/icons/svg/281/281769.svg"></a>
+        </span>
+      </section>
+    </footer>
+    <!-- End of footer -->
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The home page of Us Donuts.">
+    <meta name="author" content="Julian-and-Kim">
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <title>US Donuts | Home</title>
+    <link rel="shortcut icon" href="img/usdonut.ico" />
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet >
+
+    <!-- Custom Fonts -->
+    <link href=" http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic " rel="stylesheet " type="text/css ">
+    
+  </head>
+
+  <body> 
+  
+  <!-- navigation bar-->
+  <div class="topnav" id="myTopnav">
+    <a href="index.html" class="active">Us Donuts</a>
+    <a href="Menu.html">Menu</a>
+    <a href="About.html">About</a>
+    <a href="Contact.html">Contact</a>
+    <a href="Order.html">Order</a>
+    <a href="Location.html">Location</a>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+  </div>
+  <!--end of navigation bar-->
+  
+  <!--start of headerpic-->
+    <div class="container">
+      <img id="jumbopic" src="img/usbanner.jpeg" alt="Donuts">
+      <div class="center">
+        <h1>US Donuts</h1>
+      </div>
+    </div>
+  <!--end of headerpic-->
+
+  <!--  Slideshow  -->
+    <div id="cssSlider">
+      <div id="sliderImages">
+        <img id="si_1" src="http://images6.fanpop.com/image/photos/33300000/YUMMY-DONUTS-donuts-33393358-500-281.jpg" alt="" />
+        <img id="si_2" src="http://www.pepsico.com/images/album/static-pages/global-unit-drinks.jpg?sfvrsn=1" alt="" />
+        <img id="si_3" src="http://www.telegraph.co.uk/content/dam/food-and-drink/2017/01/04/coffeeS006G8_wwwAlamycom_Heart-shaped-coffee-art-on-a-latte_trans_NvBQzQNjv4BqEDjTm7JpzhSGR1_8ApEWQA1vLvhkMtVb21dMmpQBfEs.jpg?imwidth=450" alt=/>
+        <img id="si_4" src="http://www.dietsinreview.com/product_images/153/croissant_sausage_egg_.jpg" alt="" />
+      </div>
+    </div>
+    <div class="button">
+      <a href="Menu.html" role="button" id="viewmenu">View Menu</a>
+    </div>
+  <!--  End of slideshow  -->
+  
+  <!-- start of  reviews -->
+    <div class="review1">
+      <span id="submitInfo" class="help-block2"></span>
+      <div class="review-heading">
+        <h2>Customer's Reviews:</h2>
+      </div>
+      <div id="review-container">
+      </div>
+    </div>
+    <script>
+     var reviews = {
+        reviews: [
+          {
+           stars: 5,
+           name: "Joseph M Rosenwald",
+            city: "",
+           review:
+              "Best selection of donuts and treats! The kolaches are great and the service is excellent!"
+         },
+         {
+            stars: 5,
+            name: "Brianna Brown",
+            city: "",
+           review: "Best donuts around. Try their frozen coffee drinks!!"
+         },
+         {
+          stars: 5,
+          name: "Chris Bowman Rowland",
+          city: "",
+          review:
+            "Best donuts in town-hands down! We have beed going there weekly for years and will continue!"
+         }
+       ]
+     };
+    
+     function ReviewStarContainer(stars) {
+       var div = document.createElement("div");
+        div.className = "stars-container";
+       for (var i = 0; i < 5; i++) {
+          var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+         svg.setAttribute("viewBox", "0 12.705 512 486.59");
+         svg.setAttribute("x", "0px");
+         svg.setAttribute("y", "0px");
+         svg.setAttribute("xml:space", "preserve");
+         svg.setAttribute("class", "star");
+         var svgNS = svg.namespaceURI;
+         var star = document.createElementNS(svgNS, "polygon");
+          star.setAttribute(
+            "points",
+           "256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566"
+          );
+         star.setAttribute("fill", i < stars ? "#f39c12" : "#808080");
+         svg.appendChild(star);
+         div.appendChild(svg);
+        }
+        return div;
+     }
+    
+     function ReviewContentContainer(name, city, review) {
+        var reviewee = document.createElement("div");
+       reviewee.className = "reviewee footer";
+       reviewee.innerHTML = "- " + name + ", " + city;
+     
+        var comment = document.createElement("p");
+        comment.innerHTML = review;
+    
+        var div = document.createElement("div");
+       div.className = "review-content";
+        div.appendChild(comment);
+        div.appendChild(reviewee);
+    
+       return div;
+      }
+    
+      function ReviewsContainer(review) {
+        var div = document.createElement("blockquote");
+        div.className = "review";
+        div.appendChild(ReviewStarContainer(review.stars));
+        div.appendChild(
+         ReviewContentContainer(review.name, review.city, review.review)
+       );
+       return div;
+      }
+    
+      for (var i = 0; i < reviews.reviews.length; i++) {
+       document
+         .getElementById("review-container")
+         .appendChild(ReviewsContainer(reviews.reviews[i]));
+     }
+    </script>
+  <!-- end of reviews -->
+  
+   <!--  Footer  -->
+    <footer class="flex-rw">
+      <ul class="footer-list-top">
+        <li>
+          <h4 class="footer-list-header">.</h4></li>
+        <li><a href='Contact.html' class="generic-anchor footer-list-anchor" itemprop="significantLink">(731)506-3808</a></li>
+        <li><a href='Contact.html' class="generic-anchor footer-list-anchor" itemprop="significantLink">usdonuts<br>@gmail.com</a></li>
+      </ul>
+      <ul class="footer-list-top">
+        <li>
+          <h4 class="footer-list-header">Contact</h4></li>
+        <li class="hours">Mon-Sat: 5am-1pm</li>
+        <li class="hours">Sun: 6am-1pm</li>
+      </ul>
+      <ul class="footer-list-top">
+        <li id='help'>
+          <h4 class="footer-list-header">.</h4></li>
+        <li id='user-registration'><a href="Location.html" class="generic-anchor footer-list-anchor" itemprop="significantLink">3189 N Highland Ave Suite C</a></li>
+        <li id='order-tracking'><a href="Location.html" itemprop="significantLink" class="generic-anchor footer-list-anchor">Jackson,TN 38305</a></li>
+      </ul>
+      <section class="footer-social-section flex-rw">
+        <span class="footer-social-overlap footer-social-connect">Follow Us On</span>
+        <span class="footer-social-overlap footer-social-icons-wrapper">
+          <a href="https://www.facebook.com/usdonutsnorthside/" class="facebook"><img src="https://lh3.googleusercontent.com/ZZPdzvlpK9r_Df9C3M7j1rNRi7hhHRvPhlklJ3lfi5jk86Jd1s0Y5wcQ1QgbVaAP5Q=w170" class="facebook"><img class="gmaillogo" src="https://image.flaticon.com/icons/svg/281/281769.svg"></a>
+        </span>
+      </section>
+    </footer>
+    <!-- End of Footer -->
+    
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+  </body>
+
+</html>
